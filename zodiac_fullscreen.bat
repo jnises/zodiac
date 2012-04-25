@@ -1,0 +1,1 @@
+zodiac.exe -f -w 1680 -h 1050 -s4
