@@ -203,7 +203,7 @@ namespace mhvl
       operator const value_type * () const {return data;}   */
 
     iterator begin(){return dataarr;}
-    iterator end(){return data+datalength;}
+    iterator end(){return dataarr+datalength;}
 
     const_iterator begin() const {return dataarr;}
     const_iterator end() const {return dataarr+datalength;}

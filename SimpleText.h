@@ -6,7 +6,11 @@
 #ifndef SIMPLETEXT_H
 #define SIMPLETEXT_H
 
+#if defined(__APPLE__)
+#include <OpenGL/gl.h>
+#else
 #include "GL/gl.h"
+#endif
 
 #include <cstring>
 #include <string>

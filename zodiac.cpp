@@ -157,7 +157,7 @@ void initEvent(GlobalInfo &info)
   info.eventDispatch=new EventDispatch();
   info.eventDispatch->addHandler(bind(quitEventHandler,&info.running,_1));
   info.keyBinds=new KeyEventManager();
-  info.eventDispatch->addHandler(ref(*info.keyBinds));
+  info.eventDispatch->addHandler(std::ref(*info.keyBinds));
   info.keyBinds->bindKeyUp(SDLK_ESCAPE,bind(setBool,&info.running,false));
   info.keyBinds->bindKeyUp(SDLK_q,bind(setBool,&info.running,false));
 }
