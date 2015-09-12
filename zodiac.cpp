@@ -4,6 +4,14 @@
 
 #include "glee/GLee.h"
 
+#if defined(__APPLE__)
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#else
+#include "GL/gl.h"
+#include "GL/glu.h"
+#endif
+
 #include <iostream>
 #include <string>
 #include "SDL.h"
@@ -27,6 +35,7 @@ using namespace megadodo;
 using namespace mhvl;
 using namespace boost;
 
+SDL_Window *window = nullptr;
 
 void initSDL(GlobalInfo &info);
 void initGL(GlobalInfo &info);
@@ -37,92 +46,92 @@ void cleanupmess(const string &message);
 
 int main(int argc,char **argv)
 {
-  GlobalInfo info;
+    GlobalInfo info;
   
-  // Defaults
-  info.bytesperpixel=32;
-  info.doublebuffer=true;
-  info.fullscreen=false;
-  info.running=true;
-  info.multisamples=0;
+    // Defaults
+    info.bytesperpixel=32;
+    info.doublebuffer=true;
+    info.fullscreen=false;
+    info.running=true;
+    info.multisamples=0;
 
-  #ifdef USE_PROGRAM_OPTIONS
-  // program options
-  po::options_description desc("Allowed options");
-  desc.add_options()
-    ("help", "produce help message")
-    ("width,w", po::value<int>(&info.winwidth)->default_value(800), "screen width")
-    ("height,h", po::value<int>(&info.winheight)->default_value(600), "screen height")
-    ("aspect,a", po::value<float>(), "aspect ratio")
-    ("fullscreen,f", "fullscreen switch")
-    ("samples,s", po::value<int>(), "number of antialiasing samples")
-    ;
+#ifdef USE_PROGRAM_OPTIONS
+    // program options
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("help", "produce help message")
+        ("width,w", po::value<int>(&info.winwidth)->default_value(800), "screen width")
+        ("height,h", po::value<int>(&info.winheight)->default_value(600), "screen height")
+        ("aspect,a", po::value<float>(), "aspect ratio")
+        ("fullscreen,f", "fullscreen switch")
+        ("samples,s", po::value<int>(), "number of antialiasing samples")
+        ;
 
-  po::variables_map vm;
-  po::store(po::parse_command_line(argc, argv, desc), vm);
-  po::notify(vm);   
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);   
   
-  if(vm.count("help"))
+    if(vm.count("help"))
     {
-      cout<<desc<<endl;
-      exit(0);
+        cout<<desc<<endl;
+        exit(0);
     }
   
-  if(vm.count("fullscreen"))
-    info.fullscreen=true;
+    if(vm.count("fullscreen"))
+        info.fullscreen=true;
   
-  if(vm.count("aspect"))
-    info.aspect=vm["aspect"].as<float>();
-  else
-    info.aspect=(float)info.winwidth/info.winheight;
+    if(vm.count("aspect"))
+        info.aspect=vm["aspect"].as<float>();
+    else
+        info.aspect=(float)info.winwidth/info.winheight;
 
-  if(vm.count("samples"))
-    info.multisamples=vm["samples"].as<int>();
+    if(vm.count("samples"))
+        info.multisamples=vm["samples"].as<int>();
   
-  #else
-  info.winwidth=800;
-  info.winheight=600;
-  info.aspect=4/3.0;
-  #endif
+#else
+    info.winwidth=800;
+    info.winheight=600;
+    info.aspect=4/3.0;
+#endif
   
 
-  atexit(cleanup);
+    atexit(cleanup);
 
-  initEvent(info);
-  initSDL(info);
-  initGL(info);
+    initEvent(info);
+    initSDL(info);
+    initGL(info);
 
-  mainloop(info);
+    mainloop(info);
 
-  delete info.keyBinds;
-  delete info.eventDispatch;
+    delete info.keyBinds;
+    delete info.eventDispatch;
 
-  return 0;
+    return 0;
 }
 
 void initSDL(GlobalInfo &info)
 {
-  if(SDL_Init(SDL_INIT_VIDEO))
+    if(SDL_Init(SDL_INIT_VIDEO))
     {
-      cerr<<"Unable to init SDL at "<<__FILE__<<" line: "<<__LINE__<<endl;
+        cerr<<"Unable to init SDL at "<<__FILE__<<" line: "<<__LINE__<<endl;
     }
 
 
-  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,info.doublebuffer);
-  SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,info.bytesperpixel);  
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER,info.doublebuffer);
+    SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE,info.bytesperpixel);  
 
-  if(info.multisamples>1)
+    if(info.multisamples>1)
     {
-      SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,1);  
-      SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,info.multisamples);
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,1);  
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,info.multisamples);
     }
 
-  if(!SDL_SetVideoMode(info.winwidth,info.winheight,info.bytesperpixel,SDL_OPENGL|(info.fullscreen?SDL_FULLSCREEN:0)))
-  {
-      cleanupmess("Unable to set up video surface at "+toString(__FILE__)+" line: "+toString(__LINE__));
-  }
-
-  SDL_WM_SetCaption("Zodiac",NULL);
+    window = SDL_CreateWindow("zodiac", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, info.winwidth,info.winheight, SDL_WINDOW_OPENGL|(info.fullscreen?SDL_WINDOW_FULLSCREEN:0));
+    if(!window)
+    {
+        cleanupmess("Unable to set up video surface at "+toString(__FILE__)+" line: "+toString(__LINE__));
+    }
+    auto context = SDL_GL_CreateContext(window);
 }
 
 void initGL(GlobalInfo &info)
@@ -196,7 +205,7 @@ void mainloop(GlobalInfo &info)
         lasttime=before;
         drawer.draw();
       
-        SDL_GL_SwapBuffers();
+        SDL_GL_SwapWindow(window);
 
         //lasttime=currtime;
 
