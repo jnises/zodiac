@@ -11,34 +11,34 @@
 
 namespace megadodo
 {
-  class GenericException:public std::exception
-  {
-    std::string message;
-  public:
-    GenericException(std::string msg) throw():message(msg){}
-    ~GenericException() throw(){}
-    const char *what(){return message.c_str();}
-  };
+    class GenericException:public std::exception
+    {
+        std::string message;
+    public:
+        GenericException(std::string msg) throw():message(msg){}
+        ~GenericException() throw(){}
+        const char *what(){return message.c_str();}
+    };
 
-  /** Some variables needed by multiple parts of the program. */
-  struct GlobalInfo
-  {
-    int winwidth,winheight; ///< window width and height.
-    float aspect; ///< window aspect ratio.
+    /** Some variables needed by multiple parts of the program. */
+    struct GlobalInfo
+    {
+        int winwidth,winheight; ///< window width and height.
+        float aspect; ///< window aspect ratio.
     
-    int bytesperpixel;
+        int bytesperpixel;
     
-    bool doublebuffer;
-    bool fullscreen;
+        bool doublebuffer;
+        bool fullscreen;
 
-    bool running; ///< set to false to stop execution.
+        bool running; ///< set to false to stop execution.
 
-    int multisamples; ///< number of antialiasing samples.
+        int multisamples; ///< number of antialiasing samples.
 
-    EventDispatch *eventDispatch; ///< the main EventDispatch object.
-    KeyEventManager *keyBinds; ///< the main KeyEventManager object.
+        EventDispatch *eventDispatch; ///< the main EventDispatch object.
+        KeyEventManager *keyBinds; ///< the main KeyEventManager object.
 
-  };
+    };
 
 }
 #endif

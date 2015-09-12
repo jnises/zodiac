@@ -118,105 +118,105 @@ void initSDL(GlobalInfo &info)
     }
 
   if(!SDL_SetVideoMode(info.winwidth,info.winheight,info.bytesperpixel,SDL_OPENGL|(info.fullscreen?SDL_FULLSCREEN:0)))
-    {
+  {
       cleanupmess("Unable to set up video surface at "+toString(__FILE__)+" line: "+toString(__LINE__));
-    }
+  }
 
   SDL_WM_SetCaption("Zodiac",NULL);
 }
 
 void initGL(GlobalInfo &info)
 {
-  if(!GLEE_VERSION_2_0)
-    cleanupmess("This program requires openGL version 2.0");
+    if(!GLEE_VERSION_2_0)
+        cleanupmess("This program requires openGL version 2.0");
 
-  /*if(!GLEE_EXT_framebuffer_object)
-    cleanupmess("This program requires EXT_framebuffer_object");*/
+    /*if(!GLEE_EXT_framebuffer_object)
+      cleanupmess("This program requires EXT_framebuffer_object");*/
 
-  /*if(!GLEE_ARB_texture_rectangle)
-    cleanupmess("This program requires ARB_texture_rectangle");*/
+    /*if(!GLEE_ARB_texture_rectangle)
+      cleanupmess("This program requires ARB_texture_rectangle");*/
 
-  int maxfloats;
-  glGetIntegerv(GL_MAX_VARYING_FLOATS,&maxfloats);
+    int maxfloats;
+    glGetIntegerv(GL_MAX_VARYING_FLOATS,&maxfloats);
 
-  cout<<"MAX_VARYING_FLOATS: "<<maxfloats<<endl;
+    cout<<"MAX_VARYING_FLOATS: "<<maxfloats<<endl;
 }
 
 bool quitEventHandler(bool *qflag,const Event &event)
 {
-  if(event.event->type==SDL_QUIT)
+    if(event.event->type==SDL_QUIT)
     {
-      *qflag=false;
-      return true;
+        *qflag=false;
+        return true;
     }
-  return false;
+    return false;
 }
 
 void initEvent(GlobalInfo &info)
 {
-  info.eventDispatch=new EventDispatch();
-  info.eventDispatch->addHandler(bind(quitEventHandler,&info.running,_1));
-  info.keyBinds=new KeyEventManager();
-  info.eventDispatch->addHandler(*info.keyBinds);
-  info.keyBinds->bindKeyUp(SDLK_ESCAPE,bind(setBool,&info.running,false));
-  info.keyBinds->bindKeyUp(SDLK_q,bind(setBool,&info.running,false));
+    info.eventDispatch=new EventDispatch();
+    info.eventDispatch->addHandler(bind(quitEventHandler,&info.running,_1));
+    info.keyBinds=new KeyEventManager();
+    info.eventDispatch->addHandler(*info.keyBinds);
+    info.keyBinds->bindKeyUp(SDLK_ESCAPE,bind(setBool,&info.running,false));
+    info.keyBinds->bindKeyUp(SDLK_q,bind(setBool,&info.running,false));
 }
 
 void mainloop(GlobalInfo &info)
 {
-  SDL_Event event;
-  Event tmpevent;
-  Uint32 lasttime;//,currtime;
-  Uint32 before;
+    SDL_Event event;
+    Event tmpevent;
+    Uint32 lasttime;//,currtime;
+    Uint32 before;
 
-  SceneInfo sceneinfo;
+    SceneInfo sceneinfo;
 
-  SceneDrawer drawer(&info,&sceneinfo);
+    SceneDrawer drawer(&info,&sceneinfo);
 
-  lasttime=SDL_GetTicks();
+    lasttime=SDL_GetTicks();
 
-  while(info.running)
+    while(info.running)
     {
-      /*currtime=SDL_GetTicks();
-      Uint32 elptime=currtime-lasttime;
+        /*currtime=SDL_GetTicks();
+          Uint32 elptime=currtime-lasttime;
 
-      long waittime=17-elptime;
-      if(waittime>0)SDL_Delay((Uint32)waittime);*/
+          long waittime=17-elptime;
+          if(waittime>0)SDL_Delay((Uint32)waittime);*/
       
-      before=SDL_GetTicks();
+        before=SDL_GetTicks();
 
-      while(SDL_PollEvent(&event))
+        while(SDL_PollEvent(&event))
         {
-          tmpevent.event=&event;
-          info.eventDispatch->dispatch(tmpevent);
+            tmpevent.event=&event;
+            info.eventDispatch->dispatch(tmpevent);
         }
 
-      // draw stuff
-      drawer.update(((double)before-lasttime)/1000.0);
-      lasttime=before;
-      drawer.draw();
+        // draw stuff
+        drawer.update(((double)before-lasttime)/1000.0);
+        lasttime=before;
+        drawer.draw();
       
-      SDL_GL_SwapBuffers();
+        SDL_GL_SwapBuffers();
 
-      //lasttime=currtime;
+        //lasttime=currtime;
 
-      GLenum error;
-      while((error=glGetError()))
-        cerr<<"GL error: "<<gluErrorString(error)<<endl;
+        GLenum error;
+        while((error=glGetError()))
+            cerr<<"GL error: "<<gluErrorString(error)<<endl;
 
-      long waittime=17-static_cast<long>(SDL_GetTicks()-before);
-      if(waittime>0) SDL_Delay(waittime);
+        long waittime=17-static_cast<long>(SDL_GetTicks()-before);
+        if(waittime>0) SDL_Delay(waittime);
     }
 }
 
 void cleanup()
 {
-  SDL_Quit();
+    SDL_Quit();
 }
 
 void cleanupmess(const string &message)
 {
-  cerr<<message<<endl;
-  exit(1);
+    cerr<<message<<endl;
+    exit(1);
 }
 

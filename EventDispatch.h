@@ -12,28 +12,28 @@
 
 namespace megadodo
 {
-  class Event
-  {
-  public:
-    SDL_Event *event;
-  };
+    class Event
+    {
+    public:
+        SDL_Event *event;
+    };
 
-  /** Handles sdl-events. */
-  class EventDispatch
-  {
-  public:
-    typedef boost::function<bool (const Event &event)> callbacktype;
-    void addHandler(callbacktype handler);
+    /** Handles sdl-events. */
+    class EventDispatch
+    {
+    public:
+        typedef boost::function<bool (const Event &event)> callbacktype;
+        void addHandler(callbacktype handler);
 
-    template<typename T>
-    void removeHandler(T handler)
-    {eventhandlers.erase(remove(eventhandlers.begin(),eventhandlers.end(),handler),eventhandlers.end());}
+        template<typename T>
+        void removeHandler(T handler)
+        {eventhandlers.erase(remove(eventhandlers.begin(),eventhandlers.end(),handler),eventhandlers.end());}
 
-    void dispatch(const Event &event);
+        void dispatch(const Event &event);
 
-  private:
-    std::vector<callbacktype> eventhandlers;
-  };
+    private:
+        std::vector<callbacktype> eventhandlers;
+    };
   
 }
 

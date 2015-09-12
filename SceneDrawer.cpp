@@ -214,39 +214,39 @@ namespace megadodo
   }
 
 
-  EnvBox::EnvBox()
-  {
-    timesum=0;
+    EnvBox::EnvBox()
+    {
+        timesum=0;
 
-    boxlist=glGenLists(1);
-    glNewList(boxlist,GL_COMPILE);
-    glutSolidCube(1);
-    glEndList();
+        boxlist=glGenLists(1);
+        glNewList(boxlist,GL_COMPILE);
+        glutSolidCube(1);
+        glEndList();
 
-    envshader.addShader("shaders/envshader.vert",GL_VERTEX_SHADER);
-    envshader.addShader("shaders/envshader.frag",GL_FRAGMENT_SHADER);
-    envshader.link();
+        envshader.addShader("shaders/envshader.vert",GL_VERTEX_SHADER);
+        envshader.addShader("shaders/envshader.frag",GL_FRAGMENT_SHADER);
+        envshader.link();
 
-    envTime=envshader.getUniform("time");
-  }
+        envTime=envshader.getUniform("time");
+    }
 
-  EnvBox::~EnvBox()
-  {
-    glDeleteLists(boxlist,1);
-  }
+    EnvBox::~EnvBox()
+    {
+        glDeleteLists(boxlist,1);
+    }
 
-  void EnvBox::update(double dtime)
-  {timesum+=dtime;}
+    void EnvBox::update(double dtime)
+    {timesum+=dtime;}
 
-  void EnvBox::draw()
-  {
-    glDisable(GL_DEPTH_TEST);
+    void EnvBox::draw()
+    {
+        glDisable(GL_DEPTH_TEST);
     
-    envshader.useShader();
-    glUniform1f(envTime,timesum);
+        envshader.useShader();
+        glUniform1f(envTime,timesum);
     
-    glCallList(boxlist);
-  }
+        glCallList(boxlist);
+    }
 
 
 }
