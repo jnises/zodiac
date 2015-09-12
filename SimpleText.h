@@ -23,7 +23,7 @@ namespace megadodo
   class SimpleText
   {
   private:
-    static const float charwidth=0.5;
+    static constexpr float charwidth=0.5;
 
     static GLuint firstchar;
     static bool init;

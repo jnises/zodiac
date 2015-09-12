@@ -2,7 +2,9 @@ cmake_minimum_required (VERSION 3.3.1)
 
 project(zodiac)
 
-find_package(SDL REQUIRED sdl)
+INCLUDE(FindPkgConfig)
+#find_package(SDL REQUIRED sdl)
+PKG_SEARCH_MODULE(SDL REQUIRED sdl)
 find_package(Boost 1.58 COMPONENTS program_options REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -23,4 +25,7 @@ target_include_directories(zodiac PRIVATE
 target_link_libraries(zodiac
   ${SDL_LIBRARIES}
   ${OpenGL_LIBRARY_DIRS}
-  ${OpenGL_INCLUDE_DIR})
+  ${OpenGL_INCLUDE_DIR}
+  ${Boost_LIBRARIES}
+  )
+set_property(TARGET zodiac PROPERTY CXX_STANDARD 14)
