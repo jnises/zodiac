@@ -31,23 +31,23 @@ namespace megadodo
     return true;
   }
 
-  void KeyEventManager::bindKey(SDLKey key,boost::function<void (const SDL_KeyboardEvent *)> f)
+  void KeyEventManager::bindKey(SDL_Keycode key,boost::function<void (const SDL_KeyboardEvent *)> f)
   {
     keybindmap[key]=f;
   }
 
-  void KeyEventManager::bindKeyUp(SDLKey key,boost::function<void ()> f)
+  void KeyEventManager::bindKeyUp(SDL_Keycode key,boost::function<void ()> f)
   {
     keybindmap[key]=bind(keyUpHelper,f,_1);
   }
 
-  void KeyEventManager::bindKeyDown(SDLKey key,boost::function<void ()> f)
+  void KeyEventManager::bindKeyDown(SDL_Keycode key,boost::function<void ()> f)
   {
     keybindmap[key]=bind(keyDownHelper,f,_1);
   }
 
 
-  void KeyEventManager::unbindKey(SDLKey key)
+  void KeyEventManager::unbindKey(SDL_Keycode key)
   {
     keybindmap.erase(key);
   }

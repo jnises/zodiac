@@ -4,7 +4,7 @@ project(zodiac)
 
 INCLUDE(FindPkgConfig)
 #find_package(SDL REQUIRED sdl)
-PKG_SEARCH_MODULE(SDL REQUIRED sdl)
+PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
 find_package(Boost 1.58 COMPONENTS program_options REQUIRED)
 find_package(OpenGL REQUIRED)
 
@@ -20,10 +20,10 @@ target_compile_definitions(zodiac PRIVATE USE_PROGRAM_OPTIONS)
 target_include_directories(zodiac PRIVATE
   ${PROJECT_SOURCE_DIR}
   ${PROJECT_SOURCE_DIR}/external
-  ${SDL_INCLUDE_DIRS}
+  ${SDL2_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIR})
 target_link_libraries(zodiac
-  ${SDL_LIBRARIES}
+  ${SDL2_LIBRARIES}
   ${OpenGL_LIBRARY_DIRS}
   ${OpenGL_INCLUDE_DIR}
   ${Boost_LIBRARIES}
