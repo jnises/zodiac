@@ -48,7 +48,7 @@ namespace mhvl
   public:
     MhvlException(const std::string &msg):message(msg){}
     ~MhvlException() throw(){}
-    virtual const char *what() const throw(){return message.c_str();}
+    virtual const char *what() const noexcept override {return message.c_str();}
   };
 
   class MhvlZeroDeterminantException

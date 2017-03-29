@@ -17,7 +17,7 @@ namespace megadodo
     public:
         GenericException(std::string msg) throw():message(msg){}
         ~GenericException() throw(){}
-        const char *what(){return message.c_str();}
+        const char *what() const noexcept override {return message.c_str();}
     };
 
     /** Some variables needed by multiple parts of the program. */

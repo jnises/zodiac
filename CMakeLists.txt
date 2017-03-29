@@ -3,9 +3,8 @@ cmake_minimum_required (VERSION 3.3.1)
 project(zodiac)
 
 INCLUDE(FindPkgConfig)
-#find_package(SDL REQUIRED sdl)
-PKG_SEARCH_MODULE(SDL2 REQUIRED sdl2)
-find_package(Boost 1.58 COMPONENTS program_options REQUIRED)
+find_package(sdl2 REQUIRED)
+find_package(Boost 1.63 COMPONENTS program_options REQUIRED)
 find_package(OPENGL REQUIRED)
 find_library(COREFOUNDATION CoreFoundation)
 

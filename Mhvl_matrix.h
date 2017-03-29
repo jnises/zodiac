@@ -327,8 +327,8 @@ namespace mhvl
         }
 
         // Friendslist
-        friend Matrix<value_type> operator*<value_type>(const Matrix<value_type> &op0,const Matrix<value_type> &op1);
-        friend Matrix<value_type> &operator*=<value_type>(Matrix<value_type> &op0,const Matrix<value_type> &op1);
+        friend Matrix<value_type> operator*<value_type>(const Matrix<value_type> &op0,const Matrix<value_type> &op1) throw(MhvlException);
+        friend Matrix<value_type> &operator*=<value_type>(Matrix<value_type> &op0,const Matrix<value_type> &op1) throw(MhvlException);
     };
 
     typedef Matrix<float> Matrixf;

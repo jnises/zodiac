@@ -25,7 +25,7 @@ namespace megadodo
   public:
     SceneDrawerException(std::string msg) throw():message(msg){}
     ~SceneDrawerException() throw(){}
-    const char *what(){return message.c_str();}
+    const char *what() const noexcept override {return message.c_str();}
   };
 
   class SceneInfo

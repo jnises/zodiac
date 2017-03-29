@@ -22,7 +22,7 @@ namespace megadodo
     public:
         ShaderProgramException(std::string msg) throw():message(msg){}
         ~ShaderProgramException() throw(){}
-        const char *what(){return message.c_str();}    
+        const char *what() const noexcept override {return message.c_str();}
     };
 
     /** Encapsulates a GLSL shader program. */
