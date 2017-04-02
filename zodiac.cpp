@@ -16,12 +16,6 @@
 #include <string>
 #include "SDL.h"
 #include "SDL_opengl.h"
-
-#ifdef USE_PROGRAM_OPTIONS
-#include <boost/program_options.hpp>
-namespace po=boost::program_options;
-#endif
-
 #include "Mhvl.h"
 #include "GlobalInfo.h"
 #include "EventDispatch.h"
@@ -29,6 +23,10 @@ namespace po=boost::program_options;
 #include "KeyEventManager.h"
 #include <boost/bind.hpp>
 #include "SceneDrawer.h"
+#ifdef USE_PROGRAM_OPTIONS
+#include <boost/program_options.hpp>
+namespace po=boost::program_options;
+#endif
 
 using namespace std;
 using namespace megadodo;

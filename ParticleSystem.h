@@ -3,10 +3,8 @@
  * @author Joel Nises
  */
 
-#ifndef PARTICLESYSTEM_H_
-#define PARTICLESYSTEM_H_
+#pragma once
 
-#include <vector>
 #include "Mhvl.h"
 #include "ShaderProgram.h"
 
@@ -47,6 +45,8 @@ namespace megadodo
 
         NoiseParticleList(int maxParticles);
         ~NoiseParticleList();
+        NoiseParticleList(NoiseParticleList &other) = delete;
+        NoiseParticleList &operator=(NoiseParticleList &other) = delete;
 
         bool isAlive(int index) const {return alivelist[index];}
 
@@ -177,4 +177,3 @@ namespace megadodo
     };
 }
 
-#endif

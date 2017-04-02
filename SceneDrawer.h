@@ -88,8 +88,8 @@ namespace megadodo
     bool mousepressed;
     mhvl::Matrixf cameramatrix;
     
-    SceneDrawer(const SceneDrawer &drawer);
-    SceneDrawer &operator=(const SceneDrawer &drawer);
+      SceneDrawer(const SceneDrawer &drawer) = delete;
+      SceneDrawer &operator=(const SceneDrawer &drawer) = delete;
   public:
     SceneDrawer(GlobalInfo *globalinfo,SceneInfo *sceneinfo);
     ~SceneDrawer();

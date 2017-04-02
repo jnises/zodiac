@@ -10,10 +10,14 @@ find_library(COREFOUNDATION CoreFoundation)
 
 set(src
   zodiac.cpp Utils.cpp ShaderProgram.cpp SimpleText.cpp Mhvl.cpp KeyEventManager.cpp EventDispatch.cpp SceneDrawer.cpp ParticleSystem.cpp
+  Utils.h ShaderProgram.h SimpleText.h Mhvl.h KeyEventManager.h EventDispatch.h SceneDrawer.h ParticleSystem.h
   # stegu code
   simplexnoise1234.cpp
+  simplexnoise1234.h
   # glee
-  external/glee/glee.c)
+  external/glee/glee.c
+  external/glee/glee.h
+)
 
 add_executable(zodiac ${src})
 target_compile_definitions(zodiac PRIVATE USE_PROGRAM_OPTIONS)
