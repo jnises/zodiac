@@ -122,12 +122,14 @@ void initSDL(GlobalInfo &info)
         SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,info.multisamples);
     }
 
-    window = SDL_CreateWindow("zodiac", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, info.winwidth,info.winheight, SDL_WINDOW_OPENGL|(info.fullscreen?SDL_WINDOW_FULLSCREEN:0));
+    window = SDL_CreateWindow("zodiac", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, info.winwidth,info.winheight, SDL_WINDOW_OPENGL|(info.fullscreen?SDL_WINDOW_FULLSCREEN_DESKTOP:0) | SDL_WINDOW_ALLOW_HIGHDPI);
     if(!window)
     {
         cleanupmess("Unable to set up video surface at "+toString(__FILE__)+" line: "+toString(__LINE__));
     }
     auto context = SDL_GL_CreateContext(window);
+    SDL_GL_GetDrawableSize(window, &info.winwidth, &info.winheight);
+    info.aspect = info.winwidth / static_cast<float>(info.winheight);
 }
 
 bool quitEventHandler(bool *qflag,const Event &event)
