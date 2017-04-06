@@ -55,7 +55,7 @@ namespace megadodo
     
     SceneDrawer::SceneDrawer(GlobalInfo *globalinfo,SceneInfo *sceneinfo):ginfo(globalinfo),sinfo(sceneinfo),cameramatrix(Matrixf::identityMatrix(4))
     {
-        particles=new ParticleSystem(3000);
+        particles=new ParticleSystem(30000);
         osd=new OSD(globalinfo);
         
         cameraXRot=0;

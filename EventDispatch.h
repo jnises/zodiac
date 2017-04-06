@@ -3,12 +3,12 @@
  * @author Joel Nises
  */
 
-#ifndef EVENTBASE_H_
-#define EVENTBASE_H_
+#pragma once
 
-#include "SDL.h"
 #include <vector>
-#include <boost/function.hpp>
+#include <functional>
+
+union SDL_Event;
 
 namespace megadodo
 {
@@ -22,7 +22,7 @@ namespace megadodo
     class EventDispatch
     {
     public:
-        typedef boost::function<bool (const Event &event)> callbacktype;
+        typedef std::function<bool (const Event &event)> callbacktype;
         void addHandler(callbacktype handler);
 
         template<typename T>
@@ -36,5 +36,3 @@ namespace megadodo
     };
   
 }
-
-#endif

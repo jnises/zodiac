@@ -171,7 +171,6 @@ void initEvent(GlobalInfo &info)
 
 void mainloop(GlobalInfo &info)
 {
-    SDL_Event event;
     Event tmpevent;
     Uint32 lasttime;//,currtime;
     Uint32 before;
@@ -184,14 +183,9 @@ void mainloop(GlobalInfo &info)
 
     while(info.running)
     {
-        /*currtime=SDL_GetTicks();
-          Uint32 elptime=currtime-lasttime;
-
-          long waittime=17-elptime;
-          if(waittime>0)SDL_Delay((Uint32)waittime);*/
-      
         before=SDL_GetTicks();
 
+        SDL_Event event;
         while(SDL_PollEvent(&event))
         {
             tmpevent.event=&event;
@@ -204,8 +198,6 @@ void mainloop(GlobalInfo &info)
         drawer.draw();
       
         SDL_GL_SwapWindow(window);
-
-        //lasttime=currtime;
 
         GLenum error;
         while((error=glGetError()))
