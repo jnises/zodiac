@@ -36,7 +36,6 @@ using namespace boost;
 SDL_Window *window = nullptr;
 
 void initSDL(GlobalInfo &info);
-void initGL(GlobalInfo &info);
 void initEvent(GlobalInfo &info);
 void mainloop(GlobalInfo &info);
 void cleanup();
@@ -97,7 +96,6 @@ int main(int argc,char **argv)
 
     initEvent(info);
     initSDL(info);
-    initGL(info);
 
     mainloop(info);
 
@@ -130,23 +128,6 @@ void initSDL(GlobalInfo &info)
         cleanupmess("Unable to set up video surface at "+toString(__FILE__)+" line: "+toString(__LINE__));
     }
     auto context = SDL_GL_CreateContext(window);
-}
-
-void initGL(GlobalInfo &info)
-{
-    if(!GLEE_VERSION_2_0)
-        cleanupmess("This program requires openGL version 2.0");
-
-    /*if(!GLEE_EXT_framebuffer_object)
-      cleanupmess("This program requires EXT_framebuffer_object");*/
-
-    /*if(!GLEE_ARB_texture_rectangle)
-      cleanupmess("This program requires ARB_texture_rectangle");*/
-
-    int maxfloats;
-    glGetIntegerv(GL_MAX_VARYING_FLOATS,&maxfloats);
-
-    cout<<"MAX_VARYING_FLOATS: "<<maxfloats<<endl;
 }
 
 bool quitEventHandler(bool *qflag,const Event &event)

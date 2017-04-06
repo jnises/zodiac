@@ -10,12 +10,12 @@ using namespace boost;
 
 namespace megadodo
 {
-    void keyDownHelper(boost::function<void ()> f,const SDL_KeyboardEvent *kevent)
+    void keyDownHelper(std::function<void ()> f,const SDL_KeyboardEvent *kevent)
     {
         if(kevent->type==SDL_KEYDOWN) f();
     }
 
-    void keyUpHelper(boost::function<void ()> f,const SDL_KeyboardEvent *kevent)
+    void keyUpHelper(std::function<void ()> f,const SDL_KeyboardEvent *kevent)
     {
         if(kevent->type==SDL_KEYUP) f();
     }
@@ -31,17 +31,17 @@ namespace megadodo
         return true;
     }
 
-    void KeyEventManager::bindKey(SDL_Keycode key,boost::function<void (const SDL_KeyboardEvent *)> f)
+    void KeyEventManager::bindKey(SDL_Keycode key,std::function<void (const SDL_KeyboardEvent *)> f)
     {
         keybindmap[key]=f;
     }
 
-    void KeyEventManager::bindKeyUp(SDL_Keycode key,boost::function<void ()> f)
+    void KeyEventManager::bindKeyUp(SDL_Keycode key,std::function<void ()> f)
     {
         keybindmap[key]=bind(keyUpHelper,f,_1);
     }
 
-    void KeyEventManager::bindKeyDown(SDL_Keycode key,boost::function<void ()> f)
+    void KeyEventManager::bindKeyDown(SDL_Keycode key,std::function<void ()> f)
     {
         keybindmap[key]=bind(keyDownHelper,f,_1);
     }
