@@ -159,7 +159,7 @@ namespace megadodo
 
         geomscale=0.02;
         timescale=0.02;
-        forcescale=0.51;
+        forcescale=5.1;
         geombias=makeVector4f(0,0,0);
         xbias=makeVector4f(0,0.43,0.89);
         ybias=makeVector4f(0,0,0);
@@ -168,7 +168,7 @@ namespace megadodo
 
         geomscale2=0.08;
         timescale2=0.08;
-        forcescale2=0.25;
+        forcescale2=2.5;
         geombias2=makeVector4f(0.3,0.99,1.3);
         xbias2=makeVector4f(0,-0.43,0.89);
         ybias2=makeVector4f(0.1,0,0);
@@ -244,7 +244,8 @@ namespace megadodo
         // if instead of while since there is no use evaluating the noise functions multiple times for the same position.
         if(noiseUpdateTimeError>stepTime)
         {
-            for(int loop0=0;loop0<list->getAliveParticles();loop0++)
+            auto numalive = list->getAliveParticles();
+            for(int loop0=0; loop0 < numalive; loop0++)
             {
                 updateParticle(loop0);
             }
