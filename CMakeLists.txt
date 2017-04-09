@@ -2,11 +2,14 @@ cmake_minimum_required (VERSION 3.3.1)
 
 project(zodiac)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
+
 INCLUDE(FindPkgConfig)
 find_package(sdl2 REQUIRED)
 find_package(Boost 1.63 COMPONENTS program_options REQUIRED)
 find_package(OPENGL REQUIRED)
 find_library(COREFOUNDATION CoreFoundation)
+find_package(TBB REQUIRED)
 
 set(src
   zodiac.cpp Utils.cpp ShaderProgram.cpp SimpleText.cpp Mhvl.cpp KeyEventManager.cpp EventDispatch.cpp SceneDrawer.cpp ParticleSystem.cpp
@@ -33,5 +36,6 @@ target_link_libraries(zodiac
   ${OPENGL_LIBRARIES}
   ${Boost_LIBRARIES}
   ${COREFOUNDATION}
+  tbb
   )
 set_property(TARGET zodiac PROPERTY CXX_STANDARD 14)

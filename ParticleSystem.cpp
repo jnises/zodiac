@@ -9,6 +9,7 @@
 #include <cmath>
 #include "Utils.h"
 #include <SDL_opengl.h>
+#include <tbb/tbb.h>
 
 using namespace std;
 using namespace mhvl;
@@ -245,10 +246,13 @@ namespace megadodo
         if(noiseUpdateTimeError>stepTime)
         {
             auto numalive = list->getAliveParticles();
-            for(int loop0=0; loop0 < numalive; loop0++)
-            {
-                updateParticle(loop0);
-            }
+            tbb::parallel_for(tbb::blocked_range<int>(0, numalive), [this](const tbb::blocked_range<int>& r)
+                              {
+                                  for(auto i = r.begin(); i != r.end(); ++i)
+                                  {
+                                      updateParticle(i);
+                                  }
+                              });
             noiseUpdateTimeError=0;
         }
     }
@@ -267,7 +271,7 @@ namespace megadodo
         emitter->fill();
 
         force=new NoiseParticleForce(particles,this);
-        force->setStepTime(0.1);
+        force->setStepTime(0.0f);
 
         particleShader.addShader("shaders/particleshader.vert",GL_VERTEX_SHADER);
         particleShader.addShader("shaders/particleshader.frag",GL_FRAGMENT_SHADER);
@@ -292,10 +296,12 @@ namespace megadodo
         force->update(dtime);
 
         // Particle position update
-        for(int loop0=0;loop0<particles->getAliveParticles();loop0++)
-        {
-            particles->position(loop0)+=Vector4f(particles->velocity(loop0)*(float)dtime);
-        }
+        auto numalive = particles->getAliveParticles();
+        tbb::parallel_for(tbb::blocked_range<int>(0, numalive), [this, dtime](const tbb::blocked_range<int>& r)
+                          {
+                              for(auto i = r.begin(); i != r.end(); ++i)
+                                  particles->position(i) += Vector4f(particles->velocity(i) * (float)dtime);
+                          });
 
         // Kill the particles that are outside the bounding sphere, and above surface level.
         unsigned int loop0=0;
