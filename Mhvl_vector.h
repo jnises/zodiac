@@ -168,7 +168,7 @@ namespace mhvl
         {
             std::fill_n(begin(),datalength,initval);
         }
-
+        
         template<unsigned int srcsize>
         explicit Vector(const Vector<vectype,srcsize> &vec)
         {

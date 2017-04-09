@@ -140,6 +140,8 @@ namespace megadodo
         double noiseUpdateTimeError;
 
         void updateParticle(int index);
+        mhvl::Vector3f potential(mhvl::Vector3f pos) const;
+        mhvl::Vector3f curl(mhvl::Vector3f pos) const;
     public:
         NoiseParticleForce(NoiseParticleList *list,ParticleSystem *owner);
 
@@ -160,8 +162,8 @@ namespace megadodo
     
         ShaderProgram particleShader;
 
-        ParticleSystem(const ParticleSystem &system);
-        ParticleSystem &operator=(const ParticleSystem &system);
+        ParticleSystem(const ParticleSystem &system) =delete;
+        ParticleSystem &operator=(const ParticleSystem &system) =delete;
     public:
         ParticleSystem(int maxparticles);
         ~ParticleSystem();
